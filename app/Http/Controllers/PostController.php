@@ -73,4 +73,18 @@ class PostController extends Controller
         }
         $post->save();
     }
+    public function change_featuredImage($id)
+    {
+        $post = Post::find($id);
+        if($post->is_featured) {
+            $post->is_featured = false;
+            $post->save();
+            return back();
+        } else{
+            $post->is_featured = true;
+            $post->save();
+            return back();
+        }
+        // $post->save();
+    }
 }

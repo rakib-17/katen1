@@ -152,12 +152,9 @@
 							</div>
 							<div class="widget-content">
 								<ul class="list">
-									<li><a href="category.html#">Lifestyle</a><span>(5)</span></li>
-									<li><a href="category.html#">Inspiration</a><span>(2)</span></li>
-									<li><a href="category.html#">Fashion</a><span>(4)</span></li>
-									<li><a href="category.html#">Politic</a><span>(1)</span></li>
-									<li><a href="category.html#">Trending</a><span>(7)</span></li>
-									<li><a href="category.html#">Culture</a><span>(3)</span></li>
+									@foreach ($categories as $category)
+                                        <li><a href="{{ route('category',$category->slug) }}">{{ $category->name }}</a><span>({{ $category->posts_count }})</span></li>
+                                    @endforeach
 								</ul>
 							</div>
 

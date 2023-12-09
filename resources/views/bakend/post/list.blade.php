@@ -56,9 +56,9 @@
                     </div>
                 </td>
                 <td class="min-width">
-                    <button class="main-btn {{ $post->is_featured ? 'warning':'light' }}-btn btn-hover btn-sm">
+                    <a href="{{ route('post.change_featuredImage',$post->id) }}" class="featured_image_btn main-btn {{ $post->is_featured ? 'warning':'light' }}-btn btn-hover btn-sm" data-post-id="{{ $post->id }}">
                         <i class="lni lni-star-{{ $post->is_featured ? 'fill':'empty' }}"></i>
-                    </button>
+                    </a>
                 </td>
                 <td class="min-width">
                     <p>{{ Carbon\Carbon::parse($post->created_at)->format('d-M-y h:i') }}</p>
@@ -109,7 +109,6 @@
         }
         });
 
-
     $('.change_status').on('change', function(){
         $.ajax({
             url: "{{ route('post.change_status') }}",
@@ -118,13 +117,18 @@
                 post_id: $(this).data('post-id')
             },
             success: function(res){
-                        Toast.fire({
+                Toast.fire({
                 icon: "success",
                 title: "Status Changed Successfully"
-                });
-
-                    }
+            });
+                }
                 })
             })
-  </script>
+    $('.featured_image_btn').on('click', function(){
+        Toast.fire({
+        icon: "success",
+        title: "Featured Status Changed successfully"
+        });
+    })
+    </script>
 @endpush

@@ -85,49 +85,27 @@
 
 					<!-- section header -->
 					<div class="section-header">
-						<h3 class="section-title">Comments (3)</h3>
-						<img src="images/wave.svg" class="wave" alt="wave" />
+						<h3 class="section-title">Comments ({{ $post->comments->count() }})</h3>
+						<img src="{{ asset('frontend/images/wave.svg') }}" class="wave" alt="wave" />
 					</div>
 					<!-- post comments -->
 					<div class="comments bordered padding-30 rounded">
 
 						<ul class="comments">
-							<!-- comment item -->
-							<li class="comment rounded">
+							@foreach ($post->comments as $comment)
+                            <!-- comment item -->
+							<li class="comment rounded {{ $comment->parent_id ? 'child' : '' }}">
 								<div class="thumb">
-									<img src="images/other/comment-1.png" alt="John Doe" />
+									<img class="image img-fluid rounded-circle" src="{{ $comment->user->profile ? asset('storage/users/'.$comment->user->profile) : env('DUMMY_IMG').$comment->user->name }}" style="width: 50px; height: 50px; object-fit: cover; object-position: center;" alt="{{ $comment->user->name }}" />
 								</div>
 								<div class="details">
-									<h4 class="name"><a href="blog-single.html#">John Doe</a></h4>
-									<span class="date">Jan 08, 2021 14:41 pm</span>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vitae odio ut tortor fringilla cursus sed quis odio.</p>
+									<h4 class="name"><a href="blog-single.html#">{{ $comment->user->name }}</a></h4>
+									<span class="date">{{ \Carbon\Carbon::parse($comment->created_at)->format('M d, Y - h:i A') }}</span>
+									<p>{{ $comment->content }}</p>
 									<a href="blog-single.html#" class="btn btn-default btn-sm">Reply</a>
 								</div>
 							</li>
-							<!-- comment item -->
-							<li class="comment child rounded">
-								<div class="thumb">
-									<img src="images/other/comment-2.png" alt="John Doe" />
-								</div>
-								<div class="details">
-									<h4 class="name"><a href="blog-single.html#">Helen Doe</a></h4>
-									<span class="date">Jan 08, 2021 14:41 pm</span>
-									<p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
-									<a href="blog-single.html#" class="btn btn-default btn-sm">Reply</a>
-								</div>
-							</li>
-							<!-- comment item -->
-							<li class="comment rounded">
-								<div class="thumb">
-									<img src="images/other/comment-3.png" alt="John Doe" />
-								</div>
-								<div class="details">
-									<h4 class="name"><a href="blog-single.html#">Anna Doe</a></h4>
-									<span class="date">Jan 08, 2021 14:41 pm</span>
-									<p>Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.</p>
-									<a href="blog-single.html#" class="btn btn-default btn-sm">Reply</a>
-								</div>
-							</li>
+                            @endforeach
 						</ul>
 					</div>
 
@@ -136,51 +114,35 @@
 					<!-- section header -->
 					<div class="section-header">
 						<h3 class="section-title">Leave Comment</h3>
-						<img src="images/wave.svg" class="wave" alt="wave" />
+						<img src="{{ asset('frontend/images/wave.svg') }}" class="wave" alt="wave" />
 					</div>
-					<!-- comment form -->
-					<div class="comment-form rounded bordered padding-30">
+					@auth
+                                <!-- comment form -->
+                        <div class="comment-form rounded bordered padding-30">
 
-						<form id="comment-form" class="comment-form" method="post">
+                            <form action="{{ route('comment_store') }}" id="comment-form" class="comment-form" method="post">
+                                @csrf
+                                <div class="messages"></div>
 
-							<div class="messages"></div>
-
-							<div class="row">
-
-								<div class="column col-md-12">
-									<!-- Comment textarea -->
-									<div class="form-group">
-										<textarea name="InputComment" id="InputComment" class="form-control" rows="4" placeholder="Your comment here..." required="required"></textarea>
-									</div>
-								</div>
-
-								<div class="column col-md-6">
-									<!-- Email input -->
-									<div class="form-group">
-										<input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Email address" required="required">
-									</div>
-								</div>
-
-								<div class="column col-md-6">
-									<!-- Name input -->
-									<div class="form-group">
-										<input type="text" class="form-control" name="InputWeb" id="InputWeb" placeholder="Website" required="required">
-									</div>
-								</div>
-
-								<div class="column col-md-12">
-									<!-- Email input -->
-									<div class="form-group">
-										<input type="text" class="form-control" id="InputName" name="InputName" placeholder="Your name" required="required">
-									</div>
-								</div>
-
-							</div>
-
-							<button type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">Submit</button><!-- Submit Button -->
-
-						</form>
-					</div>
+                                <div class="row">
+                                    <input type="hidden" name="post" value="{{ $post->id }}">
+                                    <input type="hidden" name="parent" value="">
+                                    <div class="column col-md-12">
+                                        <!-- Comment textarea -->
+                                        <div class="form-group">
+                                            <textarea name="content" id="InputComment" class="form-control" rows="4" placeholder="Your comment here..." required="required"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" id="submit" value="Submit" class="btn btn-default">Submit</button><!-- Submit Button -->
+                            </form>
+                        </div>
+                    @endauth
+                    @guest
+                        <div class="alert alert-danger rounded">
+                            <strong>Please Login To Post A Comment</strong>
+                        </div>
+                    @endguest
                 </div>
 
 				<div class="col-lg-4">
@@ -272,12 +234,9 @@
 							</div>
 							<div class="widget-content">
 								<ul class="list">
-									<li><a href="blog-single.html#">Lifestyle</a><span>(5)</span></li>
-									<li><a href="blog-single.html#">Inspiration</a><span>(2)</span></li>
-									<li><a href="blog-single.html#">Fashion</a><span>(4)</span></li>
-									<li><a href="blog-single.html#">Politic</a><span>(1)</span></li>
-									<li><a href="blog-single.html#">Trending</a><span>(7)</span></li>
-									<li><a href="blog-single.html#">Culture</a><span>(3)</span></li>
+                                    @foreach ($categories as $category)
+                                        <li><a href="{{ route('category',$category->slug) }}">{{ $category->name }}</a><span>({{ $category->posts_count }})</span></li>
+                                    @endforeach
 								</ul>
 							</div>
 

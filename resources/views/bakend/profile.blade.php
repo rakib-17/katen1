@@ -15,7 +15,7 @@
                         <div class="profile-info">
                             <div class="d-flex align-items-center mb-30">
                                 <div class="profile-image">
-                                    <img src="{{ auth()->user()->profile == null ? "https://api.dicebear.com/7.x/initials/svg?seed=".auth()->user()->name : asset('storage/users/'.auth()->user()->profile ) }}" alt="">
+                                    <img src="{{ auth()->user()->profile == null ? env('DUMMY_IMG').auth()->user()->name : asset('storage/users/'.auth()->user()->profile ) }}" alt="">
                                 <div class="update-image">
                                     <input id="profile_img" type="file" name="profile">
                                     <label for="profile_img"><i class="lni lni-cloud-upload"></i></label>

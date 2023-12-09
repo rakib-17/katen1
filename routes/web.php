@@ -46,5 +46,6 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', 'update')->name('update');
         Route::delete('/delete/{id}', 'delete')->name('delete');
         Route::get('/change-status', 'change_status')->name('change_status');
+        Route::get('/change-featuredImage/{id}', 'change_featuredImage')->name('change_featuredImage');
     });
 });
