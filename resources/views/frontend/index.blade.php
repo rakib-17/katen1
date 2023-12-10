@@ -50,11 +50,11 @@
                         </div>
                         <div class="details">
                             <ul class="meta list-inline mb-0">
-                                <li class="list-inline-item"><a href="classic.html#"><img src="{{ asset('storage/users/'.$post->user->profile) }}" class="author img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover; object-position: center;" alt="author"/>{{ $post->user->name }}</a></li>
+                                <li class="list-inline-item"><a href="classic.html#"><img src="{{ $post->user->profile ? asset('storage/users/'.$post->user->profile) : env('DUMMY_IMG').$post->user->name }}" class="author img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover; object-position: center;" alt="author"/>{{ $post->user->name }}</a></li>
                                 <li class="list-inline-item">{{ \Carbon\Carbon::parse($post->created_at)->format('F d, Y') }}</li>
                                 <li class="list-inline-item"><i class="icon-bubble"></i> (0)</li>
                             </ul>
-                            <h5 class="post-title mb-3 mt-3"><a href="blog-single.html">{{ $post->title}}</a></h5>
+                            <h5 class="post-title mb-3 mt-3"><a href="{{ route('category', $post->category->slug) }}">{{ $post->title}}</a></h5>
                             <p class="excerpt mb-0">{{ $post->short_description }}</p>
                         </div>
                         <div class="post-bottom clearfix d-flex align-items-center">
@@ -70,7 +70,7 @@
                                 </ul>
                             </div>
                             <div class="float-end d-none d-md-block">
-                                <a href="blog-single.html" class="more-link">Continue reading<i class="icon-arrow-right"></i></a>
+                                <a href="{{ route('category', $post->category->slug) }}" class="more-link">Continue reading<i class="icon-arrow-right"></i></a>
                             </div>
                             <div class="more-button d-block d-md-none float-end">
                                 <a href="blog-single.html"><span class="icon-options"></span></a>
