@@ -14,7 +14,7 @@ class FrontendHomeController extends Controller
             ->where('is_featured', true)
             ->where('status', true)
             ->with(['category:id,name,slug','user:id,name'])
-            ->select(['id','title','user_id','category_id','created_at','featured_image'])
+            ->select(['id','title','user_id','slug','category_id','created_at','featured_image'])
             ->take(3)
             ->get();
 

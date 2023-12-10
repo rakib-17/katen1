@@ -8,16 +8,16 @@
                     <!-- post -->
                 <div class="post featured-post-xl">
                     <div class="details clearfix">
-                        <a href="category.html" class="category-badge lg">{{ $featured_post->category->name }}</a>
-                        <h4 class="post-title"><a href="blog-single.html">{{ $featured_post->title }}</a></h4>
+                        <a href="{{ route('category', $featured_post->category->slug) }}" class="category-badge lg">{{ $featured_post->category->name }}</a>
+                        <h4 class="post-title"><a href="{{ route('showPost',$featured_post->slug) }}">{{ $featured_post->title }}</a></h4>
                         <ul class="meta list-inline mb-0">
                             <li class="list-inline-item"><a href="classic.html#">{{ $featured_post->user->name }}</a></li>
                             <li class="list-inline-item">{{ \Carbon\Carbon::parse($featured_post->created_at)->format('F d, Y') }}</li>
                         </ul>
                     </div>
-                    <a href="blog-single.html">
+                    <a href="{{ route('showPost',$featured_post->slug) }}">
                         <div class="thumb rounded">
-                            <div class="inner data-bg-image" data-bg-image="{{ asset('storage/posts/'.$featured_post->featured_image) }}"></div>
+                            <div class="inner data-bg-image img-fluid" data-bg-image="{{ asset('storage/posts/'.$featured_post->featured_image) }}"></div>
                         </div>
                     </a>
                 </div>
