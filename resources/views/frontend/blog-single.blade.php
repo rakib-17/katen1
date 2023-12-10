@@ -22,7 +22,7 @@
 						<div class="post-header">
 							<h1 class="title mt-0 mb-3">{{ $post->title }}</h1>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="blog-single.html#"><img src="{{ asset('storage/users/'.$post->user->profile) }}" class="author img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover; object-position: center;" alt="author"/>{{ $post->user->name }}</a></li>
+								<li class="list-inline-item"><a href="blog-single.html#"><img src="{{ $post->user->profile ? asset('storage/users/'.$post->user->profile) : env('DUMMY_IMG').$post->user->name }}" class="author img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover; object-position: center;" alt="author"/>{{ $post->user->name }}</a></li>
 								<li class="list-inline-item"><a href="blog-single.html#">Trending</a></li>
 								<li class="list-inline-item">{{ \Carbon\Carbon::parse($post->created_at)->format('d F Y') }}</li>
 							</ul>

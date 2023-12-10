@@ -21,7 +21,7 @@ class FrontendHomeController extends Controller
         $posts = Post::latest()
             ->where('status', true)
             ->with(['category:id,name,slug','user:id,name,profile'])
-            ->select(['id','title','user_id','category_id','created_at','featured_image','short_description'])
+            ->select(['id','title','user_id','slug','category_id','created_at','featured_image','short_description'])
             ->paginate(1);
 
         $categories = Category::latest()
